@@ -6,7 +6,8 @@
 
 #include <esp_gap_ble_api.h>
 #include <esp_gatts_api.h>
-#ifdef USE_ESP32_FRAMEWORK_ARDUINO
+#ifdef USE_ESP32_FRAMEWORK_ARDUINO\
+#include <esp_wifi.h>
 #endif
 
 namespace esphome
