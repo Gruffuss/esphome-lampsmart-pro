@@ -8,6 +8,7 @@
 #include <esp_gatts_api.h>
 #ifdef USE_ESP32_FRAMEWORK_ARDUINO
 #include <esp_wifi.h>
+#include <esp_wifi_types.h>
 #endif
 
 namespace esphome
