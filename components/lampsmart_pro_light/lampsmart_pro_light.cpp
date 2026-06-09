@@ -27,8 +27,11 @@ namespace esphome
 
     void LampSmartProLight::setup()
     {
-      register_service(&LampSmartProLight::on_pair, service_name_for("pair_", *light_state_));
-      register_service(&LampSmartProLight::on_unpair, service_name_for("unpair_", *light_state_));
+      std::string pair_service = service_name_for("pair_", *light_state_);
+      std::string unpair_service = service_name_for("unpair_", *light_state_);
+      ESP_LOGI(TAG, "Registering light services: %s, %s", pair_service.c_str(), unpair_service.c_str());
+      register_service(&LampSmartProLight::on_pair, pair_service);
+      register_service(&LampSmartProLight::on_unpair, unpair_service);
     }
 
     light::LightTraits LampSmartProLight::get_traits()

@@ -27,8 +27,11 @@ namespace esphome
 
     void LampSmartProFan::setup()
     {
-      register_service(&LampSmartProFan::on_pair, service_name_for("pair_", *this));
-      register_service(&LampSmartProFan::on_unpair, service_name_for("unpair_", *this));
+      std::string pair_service = service_name_for("pair_", *this);
+      std::string unpair_service = service_name_for("unpair_", *this);
+      ESP_LOGI(TAG, "Registering fan services: %s, %s", pair_service.c_str(), unpair_service.c_str());
+      register_service(&LampSmartProFan::on_pair, pair_service);
+      register_service(&LampSmartProFan::on_unpair, unpair_service);
     }
 
     fan::FanTraits LampSmartProFan::get_traits()
