@@ -16,10 +16,19 @@ namespace esphome
   namespace lampsmartpro
   {
 
+    static std::string service_name_for(const char *prefix, const EntityBase &entity)
+    {
+      char object_id[OBJECT_ID_MAX_LEN];
+      size_t object_id_len = entity.write_object_id_to(object_id, sizeof(object_id));
+      std::string service_name(prefix);
+      service_name.append(object_id, object_id_len);
+      return service_name;
+    }
+
     void LampSmartProLight::setup()
     {
-      register_service(&LampSmartProLight::on_pair, "pair_" + light_state_->get_object_id());
-      register_service(&LampSmartProLight::on_unpair, "unpair_" + light_state_->get_object_id());
+      register_service(&LampSmartProLight::on_pair, service_name_for("pair_", *light_state_));
+      register_service(&LampSmartProLight::on_unpair, service_name_for("unpair_", *light_state_));
     }
 
     light::LightTraits LampSmartProLight::get_traits()
@@ -98,7 +107,7 @@ namespace esphome
 
     void LampSmartProLight::on_pair()
     {
-      ESP_LOGD(TAG, "LampSmartProLight::on_pair called!");
+      ESP_LOGI(TAG, "LampSmartProLight::on_pair called!");
 
       char *hostId = getHostDeviceIdentifier();
       send_packet(CMD_PAIR, hostId[0], hostId[1]);
@@ -106,7 +115,7 @@ namespace esphome
 
     void LampSmartProLight::on_unpair()
     {
-      ESP_LOGD(TAG, "LampSmartProLight::on_unpair called!");
+      ESP_LOGI(TAG, "LampSmartProLight::on_unpair called!");
 
       char *hostId = getHostDeviceIdentifier();
       send_packet(CMD_UNPAIR, hostId[0], hostId[1]);
